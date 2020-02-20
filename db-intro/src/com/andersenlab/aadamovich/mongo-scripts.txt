@@ -1,0 +1,113 @@
+use grocery_mongo;
+
+//db.createCollection("category")
+db.category.insertMany([
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f1"),
+        category_name: 'Консервы',
+        category_description: 'Упаковка металлическая'
+    },
+    {_id: ObjectId("5aac37fdbb529e515dc796f2"), category_name: 'Чипсы', category_description: 'Вредно для здоровья'}
+])
+
+//db.createCollection("product")
+db.product.insertMany([
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f3"),
+        category_id: ObjectId("5aac37fdbb529e515dc796f1"),
+        product_name: 'Тушенка',
+        product_description: 'Есть мясо',
+        price: 2.2
+    },
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f4"),
+        category_id: ObjectId("5aac37fdbb529e515dc796f1"),
+        product_name: 'Плохая тушенка',
+        product_description: 'Мяса нет',
+        price: 1.1
+    },
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f5"),
+        category_id: ObjectId("5aac37fdbb529e515dc796f2"),
+        product_name: 'Lays',
+        product_description: 'Чипсы иностранные',
+        price: 1.9
+    },
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f6"),
+        category_id: ObjectId("5aac37fdbb529e515dc796f2"),
+        product_name: 'Онега',
+        product_description: 'Чипсы отечественные',
+        price: 0.97
+    },
+])
+
+//db.createCollection("customer")
+db.customer.insertMany([
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f7"),
+        login: 'LikeChips',
+        password: '123',
+        first_name: 'Василий',
+        last_name: 'Васильев',
+        registration_date: Date(),
+        address: {
+            postal_code: 220012,
+            country: 'Беларусь',
+            city: 'Минск',
+            street_house_flat: 'Правды 8 51'
+        }
+    },
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f8"),
+        login: 'LikeMeat',
+        password: '321',
+        first_name: 'Иван',
+        last_name: 'Иванов',
+        registration_date: Date()
+    }
+])
+
+//db.createCollection("order")
+db.order.insertMany([
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f9"),
+        customer_id: ObjectId("5aac37fdbb529e515dc796f7"),
+        order_date: Date(),
+        delivery_address: {
+            postal_code: 220012,
+            country: 'Беларусь',
+            city: 'Минск',
+            street_house_flat: 'Правды 8 51'
+        },
+        items: [
+            {
+                product_id: ObjectId("5aac37fdbb529e515dc796f5"),
+                quantity: 2
+            },
+            {
+                product_id: ObjectId("5aac37fdbb529e515dc796f6"),
+                quantity: 3
+            }]
+    },
+
+    {
+        _id: ObjectId("5aac37fdbb529e515dc796f0"),
+        customer_id: ObjectId("5aac37fdbb529e515dc796f8"),
+        order_date: Date(),
+        delivery_address: {
+            postal_code: 220033,
+            country: 'Беларусь',
+            city: 'Минск',
+            street_house_flat: 'Пушкина 9 13'
+        },
+        items: [{
+            product_id: ObjectId("5aac37fdbb529e515dc796f3"),
+            quantity: 1
+        },
+            {
+                product_id: ObjectId("5aac37fdbb529e515dc796f4"),
+                quantity: 1
+            }]
+    }
+])
