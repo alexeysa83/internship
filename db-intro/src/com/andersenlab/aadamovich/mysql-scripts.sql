@@ -5,9 +5,12 @@
 # 4) Directories for postal codes, cities, countries?
 
 # DATABASE CREATION
-CREATE DATABASE grocery_sql;
+CREATE DATABASE IF NOT EXISTS grocery_sql;
+USE grocery_sql;
 
 # CATEGORY TABLE
+
+DROP TABLE IF EXISTS category;
 CREATE TABLE category
 (
     id                   INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -20,6 +23,8 @@ VALUES (1, 'Консервы', 'Упаковка металлическа'),
        (2, 'Чипсы', 'Вредно для здоровья');
 
 # PRODUCT TABLE
+
+DROP TABLE IF EXISTS product;
 CREATE TABLE product
 (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -37,6 +42,8 @@ VALUES (1, 1, 'Тушенка', 'Есть мясо', 2.2),
        (4, 2, 'Онега', 'Чипсы отечественные', 0.97);
 
 # ADDRESS TABLE
+
+DROP TABLE IF EXISTS address;
 CREATE TABLE address
 (
     id                INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -51,6 +58,8 @@ VALUES (1, '220012', 'Беларусь', 'Минск', 'Правды 8 51'),
        (2, '220033', 'Беларусь', 'Минск', 'Пушкина 9 13');
 
 # CUSTOMER TABLE
+
+DROP TABLE IF EXISTS customer;
 CREATE TABLE customer
 (
     id                INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -68,6 +77,8 @@ VALUES (1, 'LikeChips', '123', 'Василий', 'Васильев', current_dat
        (2, 'LikeMeat', '321', 'Иван', 'Иванов', '2020-02-15', null);
 
 # _ORDER TABLE
+
+DROP TABLE IF EXISTS _order;
 CREATE TABLE _order
 (
     id                  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -83,6 +94,8 @@ VALUES (1, 1, 1, '2020-02-20'),
        (2, 2, 2, '2020-02-20');
 
 # ORDER_PRODUCT TABLE
+
+DROP TABLE IF EXISTS order_product;
 CREATE TABLE order_product
 (
     order_id   INT UNSIGNED NOT NULL,
