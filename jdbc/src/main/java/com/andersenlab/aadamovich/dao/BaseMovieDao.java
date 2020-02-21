@@ -2,14 +2,14 @@ package com.andersenlab.aadamovich.dao;
 
 import com.andersenlab.aadamovich.model.Movie;
 
-public interface BaseMovieDao {
+public interface BaseMovieDao <T>{
 
     // Returns primary key for newly generated instance
-    Integer add (Movie m);
+    Integer add (T m);
 
-    Movie findById (Integer id);
+    T findById (Integer id);
 
-    boolean update (Movie m);
+    boolean update (T m);
 
     boolean delete (Integer id);
 }

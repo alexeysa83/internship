@@ -6,14 +6,14 @@ import com.andersenlab.aadamovich.utils.DataSource;
 
 import java.sql.*;
 
-public class MovieDaoDefaultImpl implements BaseMovieDao {
+public class MovieDaoDefaultImpl implements BaseMovieDao <Movie> {
 
     private DataSource mysql = DataSource.getInstance();
 
-    private static volatile BaseMovieDao instance;
+    private static volatile BaseMovieDao <Movie> instance;
 
-    public static BaseMovieDao getInstance() {
-        BaseMovieDao localInstance = instance;
+    public static BaseMovieDao <Movie> getInstance() {
+        BaseMovieDao <Movie> localInstance = instance;
         if (localInstance == null) {
             synchronized (BaseMovieDao.class) {
                 localInstance = instance;

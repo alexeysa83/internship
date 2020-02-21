@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieDaoDefaultImplTest {
 
-    private BaseMovieDao dao = MovieDaoDefaultImpl.getInstance();
+    private BaseMovieDao <Movie> dao = MovieDaoDefaultImpl.getInstance();
 
     @Test
     void getInstance() {
@@ -26,6 +26,8 @@ public class MovieDaoDefaultImplTest {
         assertEquals(testMovie.getName(), savedMovie.getName());
         assertEquals(testMovie.getGenre(), savedMovie.getGenre());
         assertEquals(testMovie.isCool(), savedMovie.isCool());
+
+        dao.delete(primaryKey);
     }
 
     @Test
@@ -39,6 +41,8 @@ public class MovieDaoDefaultImplTest {
         assertEquals(testMovie.getName(), savedMovie.getName());
         assertEquals(testMovie.getGenre(), savedMovie.getGenre());
         assertEquals(testMovie.isCool(), savedMovie.isCool());
+
+        dao.delete(primaryKey);
     }
 
     @Test
@@ -54,6 +58,8 @@ public class MovieDaoDefaultImplTest {
 
         final Movie movieAfterUpdate = dao.findById(primaryKey);
         assertEquals(movieToUpdate, movieAfterUpdate);
+
+        dao.delete(primaryKey);
     }
 
     @Test
