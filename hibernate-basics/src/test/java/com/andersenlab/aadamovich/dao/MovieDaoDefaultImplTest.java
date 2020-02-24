@@ -1,7 +1,7 @@
 package com.andersenlab.aadamovich.dao;
 
 import com.andersenlab.aadamovich.dao.impl.MovieDaoDefaultImpl;
-import com.andersenlab.aadamovich.model.Movie;
+import com.andersenlab.aadamovich.entity.Movie;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
