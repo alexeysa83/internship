@@ -5,16 +5,24 @@
              version="2.0">
     <persistence-unit name="com.andersenlab.aadamovich" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.andersenlab.aadamovich.entity.Movie</class>
+        <class>com.andersenlab.aadamovich.entity.mapped_superclass.subclass.StudentMapped</class>
+        <class>com.andersenlab.aadamovich.entity.table_per_subclass.PersonPerSubclass</class>
+        <class>com.andersenlab.aadamovich.entity.table_per_subclass.subclass.StudentPerSubclass</class>
+        <class>com.andersenlab.aadamovich.entity.table_per_subclass.subclass.EmployeePerSubclass</class>
+        <class>com.andersenlab.aadamovich.entity.single_table.PersonSingle</class>
+        <class>com.andersenlab.aadamovich.entity.single_table.subclass.StudentSingle</class>
+        <class>com.andersenlab.aadamovich.entity.single_table.subclass.EmployeeSingle</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/db_jdbc?serverTimezone=Europe/Moscow&amp;logger=com.mysql.cj.log.StandardLogger&amp;profileSQL=true"/>
+                      value="jdbc:mysql://localhost:3306/hibernate_inheritance?serverTimezone=Europe/Moscow&amp;logger=com.mysql.cj.log.StandardLogger&amp;profileSQL=true"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="root1admin"/>
-            <property name="hibernate.dialect.storage_engine" value="innodb"/>
-            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect"/>
+<!--            <property name="hibernate.dialect.storage_engine" value="innodb"/>-->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
 

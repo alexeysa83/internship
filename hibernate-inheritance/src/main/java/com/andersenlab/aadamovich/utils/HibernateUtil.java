@@ -23,4 +23,8 @@ public class HibernateUtil {
     public static Session getSession() {
         return getEntityManager().unwrap(Session.class);
     }
+
+    public static void closeFactory() {
+        emFactory.close();
+    }
 }
