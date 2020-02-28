@@ -3,6 +3,7 @@ package com.andersenlab.aadamovich.dao.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -18,10 +19,10 @@ public class SettingsConfig {
         return new DataSourceSettings();
     }
 
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-//        return new PropertySourcesPlaceholderConfigurer();
-//    }
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     public Properties hibernateProperties() {
         try (final InputStream inputStream = new ClassPathResource("hibernate.properties").getInputStream()) {

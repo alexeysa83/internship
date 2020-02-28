@@ -61,7 +61,7 @@ public class UserEntity {
         this.role = role;
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<EventEntity> getEvents() {
         return events;
     }

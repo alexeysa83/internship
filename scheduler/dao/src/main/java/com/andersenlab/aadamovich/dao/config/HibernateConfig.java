@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import(SettingsConfig.class)
-//@EnableTransactionManagement
 public class HibernateConfig {
 
     private final SettingsConfig settingsConfig;
@@ -40,11 +39,4 @@ public class HibernateConfig {
         sessionFactoryBean.setHibernateProperties(settingsConfig.hibernateProperties());
         return sessionFactoryBean;
     }
-//
-//    @Bean
-//    public PlatformTransactionManager transactionManager() {
-//        final JpaTransactionManager transactionManager = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-//        return transactionManager;
-//    }
 }
