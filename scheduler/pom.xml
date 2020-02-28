@@ -28,6 +28,8 @@
         <junit-jupiter-engine.version>5.4.0</junit-jupiter-engine.version>
         <!--        Logging -->
         <slf4j.version>1.7.30</slf4j.version>
+        <!--AOP-->
+        <aspectjweaver.version>1.9.4</aspectjweaver.version>
     </properties>
 
     <dependencyManagement>
@@ -37,14 +39,14 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
-                              <exclusions>
+                <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
-                       <!--        DB-->
+            <!--        DB-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
@@ -103,6 +105,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <!--AOP-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectjweaver.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

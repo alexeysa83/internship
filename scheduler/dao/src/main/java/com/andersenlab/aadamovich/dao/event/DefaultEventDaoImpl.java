@@ -1,5 +1,6 @@
 package com.andersenlab.aadamovich.dao.event;
 
+import com.andersenlab.aadamovich.dao.aspect.spring_aop.LoggingClassMethods;
 import com.andersenlab.aadamovich.dao.converter.EventConvert;
 import com.andersenlab.aadamovich.dao.entity.EventEntity;
 import com.andersenlab.aadamovich.dao.entity.UserEntity;
@@ -8,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+@LoggingClassMethods
 public class DefaultEventDaoImpl implements EventBaseDao {
 
     private final SessionFactory factory;
