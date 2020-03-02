@@ -1,18 +1,26 @@
 package com.andersenlab.aadamovich.service.user;
 
 import com.andersenlab.aadamovich.dao.user.UserBaseDao;
+import com.andersenlab.aadamovich.model.Role;
 import com.andersenlab.aadamovich.model.dto.UserDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class DefaultUserServiceImpl implements UserService{
+public class DefaultUserServiceImpl implements UserService {
 
     private final UserBaseDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
-    public DefaultUserServiceImpl(UserBaseDao userDao) {
+    public DefaultUserServiceImpl(UserBaseDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    //TODO Tests and check login is taken
     @Override
     public UserDto saveUser(UserDto dto) {
+        dto.setRole(Role.USER);
+        final String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(encodedPassword);
         return userDao.save(dto);
     }
 
