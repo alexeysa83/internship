@@ -10,7 +10,7 @@ CREATE TABLE user
 (
     id       INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     login    VARCHAR(24) NOT NULL,
-    password VARCHAR(24) NOT NULL,
+    password VARCHAR(256) NOT NULL,
     role     VARCHAR(12) NOT NUll,
     CONSTRAINT user_login_uindex UNIQUE (login)
 );

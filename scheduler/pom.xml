@@ -30,6 +30,7 @@
         <HikariCP.version>3.4.1</HikariCP.version>
         <!--        Web-->
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+        <jstl.version>1.2</jstl.version>
         <!--        Testing-->
         <junit-jupiter-engine.version>5.4.0</junit-jupiter-engine.version>
         <!--        Logging -->
@@ -114,6 +115,11 @@
                 <version>${javax.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
             <!--        Testing-->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -156,19 +162,6 @@
         <finalName>scheduler</finalName>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                        <encoding>${file.encoding}</encoding>
-                        <compilerArgument>-Xlint:all</compilerArgument>
-                        <showWarnings>true</showWarnings>
-                        <showDeprecation>true</showDeprecation>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
