@@ -35,6 +35,17 @@ public class DefaultUserDaoImpl implements UserBaseDao {
         }
     }
 
+    @Override
+    public UserDto findByLogin(String login) {
+        try (final Session session = factory.openSession()) {
+            final UserEntity userFromDB = (UserEntity) session
+                    .createQuery("from UserEntity where login= :login")
+                    .setParameter("login", login)
+                    .uniqueResult();
+            return UserConvert.toDto(userFromDB);
+        }
+    }
+
     //TODO boolean logic with HQL and update for particular fields
     @Override
     public boolean update(UserDto userDto) {

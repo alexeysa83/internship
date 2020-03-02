@@ -52,17 +52,17 @@ public class DefaultEventDaoImplTest {
 
     @Test
     void saveEvent() {
-        final EventDto eventDto = createEventDto("CreateEventTest");
+        final EventDto expectedEvent = createEventDto("CreateEventTest");
 
-        final EventDto eventSavedInDB = eventDao.save(eventDto);
-        assertNotNull(eventSavedInDB);
-        assertNotNull(eventSavedInDB.getId());
-        assertEquals(eventDto.getName(), eventSavedInDB.getName());
-        assertEquals(eventDto.getDescription(), eventSavedInDB.getDescription());
-        assertEquals(eventDto.getStartDate(), eventSavedInDB.getStartDate());
-        assertEquals(eventDto.getStartTime(), eventSavedInDB.getStartTime());
-        assertEquals(eventDto.getEndTime(), eventSavedInDB.getEndTime());
-        assertEquals(eventDto.getUserId(), eventSavedInDB.getUserId());
+        final EventDto actualEvent = eventDao.save(expectedEvent);
+        assertNotNull(actualEvent);
+        assertNotNull(actualEvent.getId());
+        assertEquals(expectedEvent.getName(), actualEvent.getName());
+        assertEquals(expectedEvent.getDescription(), actualEvent.getDescription());
+        assertEquals(expectedEvent.getStartDate(), actualEvent.getStartDate());
+        assertEquals(expectedEvent.getStartTime(), actualEvent.getStartTime());
+        assertEquals(expectedEvent.getEndTime(), actualEvent.getEndTime());
+        assertEquals(expectedEvent.getUserId(), actualEvent.getUserId());
     }
 
     @Test
@@ -74,17 +74,17 @@ public class DefaultEventDaoImplTest {
     @Test
     void findByIdExists() {
         final EventDto eventDto = createEventDto("ReadByIdTestEvent");
-        final EventDto savedEvent = eventDao.save(eventDto);
+        final EventDto expectedEvent = eventDao.save(eventDto);
 
-        final EventDto eventFoundInDB = eventDao.findById(savedEvent.getId());
-        assertNotNull(eventFoundInDB);
-        assertEquals(savedEvent.getId(), eventFoundInDB.getId());
-        assertEquals(savedEvent.getName(), eventFoundInDB.getName());
-        assertEquals(savedEvent.getDescription(), eventFoundInDB.getDescription());
-        assertEquals(savedEvent.getStartDate(), eventFoundInDB.getStartDate());
-        assertEquals(savedEvent.getStartTime(), eventFoundInDB.getStartTime());
-        assertEquals(savedEvent.getEndTime(), eventFoundInDB.getEndTime());
-        assertEquals(savedEvent.getUserId(), eventFoundInDB.getUserId());
+        final EventDto actualEvent = eventDao.findById(expectedEvent.getId());
+        assertNotNull(actualEvent);
+        assertEquals(expectedEvent.getId(), actualEvent.getId());
+        assertEquals(expectedEvent.getName(), actualEvent.getName());
+        assertEquals(expectedEvent.getDescription(), actualEvent.getDescription());
+        assertEquals(expectedEvent.getStartDate(), actualEvent.getStartDate());
+        assertEquals(expectedEvent.getStartTime(), actualEvent.getStartTime());
+        assertEquals(expectedEvent.getEndTime(), actualEvent.getEndTime());
+        assertEquals(expectedEvent.getUserId(), actualEvent.getUserId());
     }
 
     @Test
@@ -101,22 +101,22 @@ public class DefaultEventDaoImplTest {
         final EventDto savedEvent = eventDao.save(eventDto);
         final Integer eventId = savedEvent.getId();
 
-        final EventDto eventToUpdate = createEventDto("UPDATED");
-        eventToUpdate.setId(eventId);
-        eventToUpdate.setDescription("UPDATED");
-        eventToUpdate.setStartDate(LocalDate.of(2019, 3, 20));
-        eventToUpdate.setStartTime(LocalTime.of(20, 15));
-        eventToUpdate.setEndTime(LocalTime.of(21, 25));
+        final EventDto expectedEvent = createEventDto("UPDATED");
+        expectedEvent.setId(eventId);
+        expectedEvent.setDescription("UPDATED");
+        expectedEvent.setStartDate(LocalDate.of(2019, 3, 20));
+        expectedEvent.setStartTime(LocalTime.of(20, 15));
+        expectedEvent.setEndTime(LocalTime.of(21, 25));
 
-        final boolean isUpdated = eventDao.update(eventToUpdate);
+        final boolean isUpdated = eventDao.update(expectedEvent);
         assertTrue(isUpdated);
-        final EventDto eventAfterUpdate = eventDao.findById(eventId);
-        assertNotNull(eventAfterUpdate);
-        assertEquals(eventToUpdate.getName(), eventAfterUpdate.getName());
-        assertEquals(eventToUpdate.getDescription(), eventAfterUpdate.getDescription());
-        assertEquals(eventToUpdate.getStartDate(), eventAfterUpdate.getStartDate());
-        assertEquals(eventToUpdate.getStartTime(), eventAfterUpdate.getStartTime());
-        assertEquals(eventToUpdate.getEndTime(), eventAfterUpdate.getEndTime());
+        final EventDto actualEvent = eventDao.findById(eventId);
+        assertNotNull(actualEvent);
+        assertEquals(expectedEvent.getName(), actualEvent.getName());
+        assertEquals(expectedEvent.getDescription(), actualEvent.getDescription());
+        assertEquals(expectedEvent.getStartDate(), actualEvent.getStartDate());
+        assertEquals(expectedEvent.getStartTime(), actualEvent.getStartTime());
+        assertEquals(expectedEvent.getEndTime(), actualEvent.getEndTime());
     }
 
     @Test
