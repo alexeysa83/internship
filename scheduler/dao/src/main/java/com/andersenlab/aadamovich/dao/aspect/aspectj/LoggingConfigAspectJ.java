@@ -7,10 +7,12 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
 @Aspect
+@Component
 public class LoggingConfigAspectJ {
 
     private final Logger logger = LogManager.getLogger(LoggingConfigAspectJ.class);

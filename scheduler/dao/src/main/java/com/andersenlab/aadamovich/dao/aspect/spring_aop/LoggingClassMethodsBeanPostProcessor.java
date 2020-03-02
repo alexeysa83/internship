@@ -1,19 +1,18 @@
 package com.andersenlab.aadamovich.dao.aspect.spring_aop;
 
-import com.andersenlab.aadamovich.dao.aspect.aspectj.LoggingConfigAspectJ;
 import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class LoggingClassMethodsBeanPostProcessor implements BeanPostProcessor {
 
     private final Logger logger = LogManager.getLogger(LoggingClassMethodsBeanPostProcessor.class);
