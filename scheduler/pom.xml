@@ -11,6 +11,8 @@
     <modules>
         <module>dao</module>
         <module>model</module>
+        <module>service</module>
+        <module>web</module>
     </modules>
 
     <properties>
@@ -18,7 +20,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!--        Spring-->
-        <spring.version>5.2.1.RELEASE</spring.version>
+        <spring.version>5.2.4.RELEASE</spring.version>
+        <!--Spring Security-->
+        <spring-security.version>5.2.2.RELEASE</spring-security.version>
         <!--        DB-->
         <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
         <hibernate-core.version>5.4.12.Final</hibernate-core.version>
@@ -30,6 +34,9 @@
         <slf4j.version>1.7.30</slf4j.version>
         <!--AOP-->
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
+        <!-- plugins -->
+        <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
+        <tomcat.plugin.version>2.2</tomcat.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -46,16 +53,37 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <!--Spring security-->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
             <!--        DB-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
