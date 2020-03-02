@@ -28,6 +28,8 @@
         <hibernate-core.version>5.4.12.Final</hibernate-core.version>
         <ehcache-core.version>2.6.11</ehcache-core.version>
         <HikariCP.version>3.4.1</HikariCP.version>
+        <!--        Web-->
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <!--        Testing-->
         <junit-jupiter-engine.version>5.4.0</junit-jupiter-engine.version>
         <!--        Logging -->
@@ -104,6 +106,13 @@
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
                 <version>${HikariCP.version}</version>
+            </dependency>
+            <!--            Web-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+                <scope>provided</scope>
             </dependency>
             <!--        Testing-->
             <dependency>
