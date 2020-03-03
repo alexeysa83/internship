@@ -2,6 +2,7 @@ package com.andersenlab.aadamovich.web.config;
 
 import com.andersenlab.aadamovich.service.config.ServiceConfig;
 import com.andersenlab.aadamovich.web.controller.RootController;
+import com.andersenlab.aadamovich.web.controller.SecurityForwardToJspController;
 import com.andersenlab.aadamovich.web.controller.UserController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackageClasses = {RootController.class})
+@ComponentScan(basePackageClasses = {RootController.class, SecurityForwardToJspController.class})
 public class WebConfig {
 
     private final ServiceConfig serviceConfig;
