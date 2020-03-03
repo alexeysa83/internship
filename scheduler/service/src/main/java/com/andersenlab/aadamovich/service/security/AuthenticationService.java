@@ -47,6 +47,8 @@ public class AuthenticationService implements UserDetailsService {
                 return Collections.singletonList((GrantedAuthority) () -> "ROLE_USER");
             case ADMIN:
                 return Collections.singletonList((GrantedAuthority) () -> "ROLE_ADMIN");
+            case GRAND_USER:
+                return Collections.singletonList((GrantedAuthority) () -> "ROLE_GRAND_USER");
             default:
                 throw new RuntimeException("Wrong role");
         }

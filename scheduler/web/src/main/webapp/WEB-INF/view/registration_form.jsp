@@ -12,17 +12,23 @@
 <form action="${pageContext.request.contextPath}/users/add" method="POST">
     <fieldset>
         <legend>Registration form</legend>
-        <label for="login"><strong>Choose login:</strong></label>
+        <br/><label for="login"><strong>Choose login:</strong></label>
         <input id="login" type="text" name="login" required
                placeholder="Login">
 
-        <label for="password"><strong>Choose password:</strong></label>
+        <br/><label for="password"><strong>Choose password:</strong></label>
         <input id="password" type="password" name="password" required
                placeholder="Password">
 
-        <label for="passwordRepeat"><strong>Choose password:</strong></label>
+        <br/><label for="passwordRepeat"><strong>Choose password:</strong></label>
         <input id="passwordRepeat" type="password" name="repeatPassword" required
                placeholder="Repeat password"/>
+        <br/><label><strong>Choose role:</strong>
+        <input type="radio" name="role" value="USER" required> USER
+        <input type="radio" name="role" value="ADMIN" required> ADMIN
+        <input type="radio" name="role" value="GRAND_USER" required> GRAND_USER
+    </label>
+
         <input type="submit" value="Submit"/>
     </fieldset>
 </form>
