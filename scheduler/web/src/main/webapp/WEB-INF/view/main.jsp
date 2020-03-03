@@ -9,7 +9,7 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <meta charset="utf-8">
 </head>
 <body>
 
@@ -26,7 +26,12 @@
     <a href="${pageContext.request.contextPath}/login">Login</a>
     <a href="${pageContext.request.contextPath}/users/forward_to_registration_form">Registration</a>
 </sec:authorize>
-
 <hr/>
+<c:if test="${user != null}">
+    <br/>${user.id}
+    <br/>${user.login}
+    <br/>${user.password}
+    <br/>${user.role}
+</c:if>
 </body>
 </html>
