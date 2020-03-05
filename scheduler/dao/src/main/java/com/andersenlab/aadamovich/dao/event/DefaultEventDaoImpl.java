@@ -4,71 +4,63 @@ import com.andersenlab.aadamovich.dao.aspect.spring_aop.LoggingClassMethods;
 import com.andersenlab.aadamovich.dao.converter.EventConvert;
 import com.andersenlab.aadamovich.dao.entity.EventEntity;
 import com.andersenlab.aadamovich.dao.entity.UserEntity;
+import com.andersenlab.aadamovich.dao.repository.EventRepository;
 import com.andersenlab.aadamovich.model.dto.EventDto;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @LoggingClassMethods
 public class DefaultEventDaoImpl implements EventBaseDao {
 
-    private final SessionFactory factory;
+    private final EventRepository eventRepository;
 
-    public DefaultEventDaoImpl(SessionFactory factory) {
-        this.factory = factory;
+    public DefaultEventDaoImpl(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public EventDto save(EventDto eventDto) {
-        try (final Session session = factory.openSession()) {
-            final EventEntity eventToSave = EventConvert.toEntity(eventDto);
-            final Transaction transaction = session.beginTransaction();
-            final UserEntity userProxy = session.load(UserEntity.class, eventDto.getUserId());
-            eventToSave.setUser(userProxy);
-            final Integer eventId = (Integer) session.save(eventToSave);
-            transaction.commit();
-            eventDto.setId(eventId);
-            return eventDto;
-        }
+        final EventEntity eventToSave = EventConvert.toEntity(eventDto);
+        final UserEntity userEntity = new UserEntity();
+        userEntity.setId(eventDto.getUserId());
+        eventToSave.setUser(userEntity);
+        final EventEntity savedEvent = eventRepository.save(eventToSave);
+        return EventConvert.toDto(savedEvent);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public EventDto findById(Integer id) {
-        try (final Session session = factory.openSession()) {
-            final EventEntity eventEntity = session.get(EventEntity.class, id);
-            return EventConvert.toDto(eventEntity);
-        }
+        final Optional<EventEntity> eventFoundInDB = eventRepository.findById(id);
+        final EventEntity eventEntityToReturn = eventFoundInDB.orElse(null);
+        return EventConvert.toDto(eventEntityToReturn);
     }
 
-    //TODO boolean logic with HQL and update for particular fields
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public boolean update(EventDto eventDto) {
-        try (final Session session = factory.openSession()) {
-            if (eventDto.getId() <= 0) {
-                return false;
-            }
-            final EventEntity eventToUpdate = EventConvert.toEntity(eventDto);
-            final Transaction transaction = session.beginTransaction();
-            final UserEntity userProxy = session.load(UserEntity.class, eventDto.getUserId());
-            eventToUpdate.setUser(userProxy);
-            session.update(eventToUpdate);
-            transaction.commit();
-            return true;
+        boolean isUpdated = false;
+        final Optional<EventEntity> eventBeforeUpdate = eventRepository.findById(eventDto.getId());
+        final EventEntity eventEntityToUpdate = eventBeforeUpdate.orElse(null);
+        if (eventEntityToUpdate != null) {
+            eventEntityToUpdate.setName(eventDto.getName());
+            eventEntityToUpdate.setDescription(eventDto.getDescription());
+            eventEntityToUpdate.setStartDate(eventDto.getStartDate());
+            eventEntityToUpdate.setStartTime(eventDto.getStartTime());
+            eventEntityToUpdate.setEndTime(eventDto.getEndTime());
+            eventRepository.save(eventEntityToUpdate);
+            isUpdated = true;
         }
+        return isUpdated;
     }
 
-    //TODO boolean logic with HQL
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public boolean delete(Integer id) {
-        try (final Session session = factory.openSession()) {
-            if (id <= 0) {
-                return false;
-            }
-            final Transaction transaction = session.beginTransaction();
-            final EventEntity eventToDelete = session.load(EventEntity.class, id);
-            session.delete(eventToDelete);
-            transaction.commit();
-            return true;
-        }
+        final int rowsDeleted = eventRepository.deleteEventEntityById(id);
+        return rowsDeleted > 0;
     }
 }

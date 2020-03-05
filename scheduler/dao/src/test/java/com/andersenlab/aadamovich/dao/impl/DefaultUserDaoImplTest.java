@@ -9,11 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DaoConfig.class)
+@Transactional
 public class DefaultUserDaoImplTest {
 
     @Autowired
@@ -29,8 +31,6 @@ public class DefaultUserDaoImplTest {
         assertEquals(expectedUser.getLogin(), actualUser.getLogin());
         assertEquals(expectedUser.getPassword(), actualUser.getPassword());
         assertEquals(expectedUser.getRole(), actualUser.getRole());
-
-        userDao.delete(actualUser.getId());
     }
 
     @Test
@@ -50,8 +50,6 @@ public class DefaultUserDaoImplTest {
         assertEquals(expectedUser.getLogin(), actualUser.getLogin());
         assertEquals(expectedUser.getPassword(), actualUser.getPassword());
         assertEquals(expectedUser.getRole(), actualUser.getRole());
-
-        deleteTestUserFromDB(actualUser.getId());
     }
 
     @Test
@@ -71,8 +69,6 @@ public class DefaultUserDaoImplTest {
         assertEquals(expectedUser.getLogin(), actualUser.getLogin());
         assertEquals(expectedUser.getPassword(), actualUser.getPassword());
         assertEquals(expectedUser.getRole(), actualUser.getRole());
-
-        deleteTestUserFromDB(actualUser.getId());
     }
 
     @Test
@@ -101,8 +97,6 @@ public class DefaultUserDaoImplTest {
         assertEquals(expectedUser.getLogin(), actualUser.getLogin());
         assertEquals(expectedUser.getPassword(), actualUser.getPassword());
         assertEquals(expectedUser.getRole(), actualUser.getRole());
-
-        deleteTestUserFromDB(userId);
     }
 
     @Test
@@ -133,9 +127,5 @@ public class DefaultUserDaoImplTest {
         userDto.setPassword("Test Password");
         userDto.setRole(Role.USER);
         return userDto;
-    }
-
-    private void deleteTestUserFromDB(Integer id) {
-        userDao.delete(id);
     }
 }

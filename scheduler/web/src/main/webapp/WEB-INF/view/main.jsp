@@ -28,10 +28,10 @@
 </sec:authorize>
 <hr/>
 <c:if test="${user != null}">
-    <br/>${user.id}
-    <br/>${user.login}
-    <br/>${user.password}
-    <br/>${user.role}
+    <br/>Saved user id: ${user.id}
+    <br/>Saved user login: ${user.login}
+    <br/>Saved user password: ${user.password}
+    <br/>Saved user role: ${user.role}
 </c:if>
 </body>
 </html>

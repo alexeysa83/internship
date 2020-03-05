@@ -6,14 +6,12 @@ import com.andersenlab.aadamovich.dao.user.UserBaseDao;
 import com.andersenlab.aadamovich.model.Role;
 import com.andersenlab.aadamovich.model.dto.EventDto;
 import com.andersenlab.aadamovich.model.dto.UserDto;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DaoConfig.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 public class DefaultEventDaoImplTest {
 
     @Autowired
@@ -31,28 +29,9 @@ public class DefaultEventDaoImplTest {
     @Autowired
     private UserBaseDao userDao;
 
-    private UserDto testUserDto;
-
-    @BeforeAll
-    void createTestUser() {
-        final UserDto testUser = new UserDto();
-        testUser.setLogin("EventUserTest");
-        testUser.setPassword("Password");
-        testUser.setRole(Role.USER);
-        testUserDto = userDao.save(testUser);
-    }
-
-    /*
-    Deletes all the test event records from database
-     */
-    @AfterAll
-    void deleteTestUser() {
-        userDao.delete(testUserDto.getId());
-    }
-
     @Test
-    void saveEvent() {
-        final EventDto expectedEvent = createEventDto("CreateEventTest");
+        void saveEvent() {
+        final EventDto expectedEvent = createEventDtoWithSavedUserInDB("CreateEventTest");
 
         final EventDto actualEvent = eventDao.save(expectedEvent);
         assertNotNull(actualEvent);
@@ -73,7 +52,7 @@ public class DefaultEventDaoImplTest {
 
     @Test
     void findByIdExists() {
-        final EventDto eventDto = createEventDto("ReadByIdTestEvent");
+        final EventDto eventDto = createEventDtoWithSavedUserInDB("ReadByIdTestEvent");
         final EventDto expectedEvent = eventDao.save(eventDto);
 
         final EventDto actualEvent = eventDao.findById(expectedEvent.getId());
@@ -97,7 +76,7 @@ public class DefaultEventDaoImplTest {
 
     @Test
     void updateSuccess() {
-        final EventDto eventDto = createEventDto("UpdateEventTest");
+        final EventDto eventDto = createEventDtoWithSavedUserInDB("UpdateEventTest");
         final EventDto savedEvent = eventDao.save(eventDto);
         final Integer eventId = savedEvent.getId();
 
@@ -127,7 +106,7 @@ public class DefaultEventDaoImplTest {
 
     @Test
     void deleteSuccess() {
-        final EventDto eventDto = createEventDto("DeleteEventTest");
+        final EventDto eventDto = createEventDtoWithSavedUserInDB("DeleteEventTest");
         final EventDto savedEvent = eventDao.save(eventDto);
         final Integer eventId = savedEvent.getId();
 
@@ -148,7 +127,17 @@ public class DefaultEventDaoImplTest {
         eventDto.setStartDate(LocalDate.of(2020, 2, 27));
         eventDto.setStartTime(LocalTime.of(16, 0));
         eventDto.setEndTime(LocalTime.of(17, 0));
-        eventDto.setUserId(testUserDto.getId());
+        return eventDto;
+    }
+
+    private EventDto createEventDtoWithSavedUserInDB(String name) {
+        final UserDto userDto = new UserDto();
+        userDto.setLogin("Test Login");
+        userDto.setPassword("Test Password");
+        userDto.setRole(Role.USER);
+        final UserDto savedUser = userDao.save(userDto);
+        final EventDto eventDto = createEventDto(name);
+        eventDto.setUserId(savedUser.getId());
         return eventDto;
     }
 }

@@ -2,77 +2,59 @@ package com.andersenlab.aadamovich.dao.user;
 
 import com.andersenlab.aadamovich.dao.converter.UserConvert;
 import com.andersenlab.aadamovich.dao.entity.UserEntity;
+import com.andersenlab.aadamovich.dao.repository.UserRepository;
 import com.andersenlab.aadamovich.model.dto.UserDto;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 public class DefaultUserDaoImpl implements UserBaseDao {
 
-    private final SessionFactory factory;
+    private final UserRepository userRepository;
 
-    public DefaultUserDaoImpl(SessionFactory factory) {
-        this.factory = factory;
+    public DefaultUserDaoImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public UserDto save(UserDto userDto) {
-        try (final Session session = factory.openSession()) {
-            final UserEntity userToSave = UserConvert.toEntity(userDto);
-            final Transaction transaction = session.beginTransaction();
-            final Integer userId = (Integer) session.save(userToSave);
-            transaction.commit();
-            userDto.setId(userId);
-            return userDto;
-        }
+        final UserEntity userToSave = UserConvert.toEntity(userDto);
+        final UserEntity savedUser = userRepository.save(userToSave);
+        return UserConvert.toDto(savedUser);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public UserDto findById(Integer id) {
-        try (final Session session = factory.openSession()) {
-            final UserEntity userEntity = session.get(UserEntity.class, id);
-            return UserConvert.toDto(userEntity);
-        }
+        final Optional<UserEntity> userFoundInDB = userRepository.findById(id);
+        final UserEntity userEntityToReturn = userFoundInDB.orElse(null);
+        return UserConvert.toDto(userEntityToReturn);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public UserDto findByLogin(String login) {
-        try (final Session session = factory.openSession()) {
-            final UserEntity userFromDB = (UserEntity) session
-                    .createQuery("from UserEntity where login= :login")
-                    .setParameter("login", login)
-                    .uniqueResult();
-            return UserConvert.toDto(userFromDB);
-        }
+        final UserEntity userEntityFoundInDB = userRepository.findByLogin(login);
+        return UserConvert.toDto(userEntityFoundInDB);
     }
 
-    //TODO boolean logic with HQL and update for particular fields
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public boolean update(UserDto userDto) {
-        try (final Session session = factory.openSession()) {
-            if (userDto.getId() <= 0) {
-                return false;
-            }
-            final UserEntity userToUpdate = UserConvert.toEntity(userDto);
-            final Transaction transaction = session.beginTransaction();
-            session.update(userToUpdate);
-            transaction.commit();
-            return true;
-        }
+        final int rowsUpdated = userRepository.updateLoginPasswordRole(
+                userDto.getId(),
+                userDto.getLogin(),
+                userDto.getPassword(),
+                userDto.getRole());
+              return rowsUpdated > 0;
     }
 
-    //TODO boolean logic with HQL and in one query
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public boolean delete(Integer id) {
-        try (final Session session = factory.openSession()) {
-            if (id <= 0) {
-                return false;
-            }
-            final Transaction transaction = session.beginTransaction();
-            final UserEntity userToDelete = session.load(UserEntity.class, id);
-            session.delete(userToDelete);
-            transaction.commit();
-            return true;
-        }
+        final int rowsDeleted = userRepository.deleteUserEntityById(id);
+        return rowsDeleted > 0;
     }
 }
