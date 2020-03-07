@@ -9,8 +9,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>dao</module>
         <module>model</module>
+        <module>dao</module>
+        <module>service</module>
+        <module>web</module>
     </modules>
 
     <properties>
@@ -18,18 +20,27 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <!--        Spring-->
-        <spring.version>5.2.1.RELEASE</spring.version>
+        <spring.version>5.2.4.RELEASE</spring.version>
+        <spring-data-jpa.version>2.2.5.RELEASE</spring-data-jpa.version>
+        <!--Spring Security-->
+        <spring-security.version>5.2.2.RELEASE</spring-security.version>
         <!--        DB-->
         <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
         <hibernate-core.version>5.4.12.Final</hibernate-core.version>
         <ehcache-core.version>2.6.11</ehcache-core.version>
         <HikariCP.version>3.4.1</HikariCP.version>
+        <!--        Web-->
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+        <jstl.version>1.2</jstl.version>
         <!--        Testing-->
         <junit-jupiter-engine.version>5.4.0</junit-jupiter-engine.version>
         <!--        Logging -->
         <slf4j.version>1.7.30</slf4j.version>
         <!--AOP-->
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
+        <!-- plugins -->
+        <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
+        <tomcat.plugin.version>2.2</tomcat.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -46,16 +57,42 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!--        DB-->
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql-connector-java.version}</version>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data-jpa.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <!--Spring security-->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <!--        DB-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -76,6 +113,18 @@
                 <groupId>com.zaxxer</groupId>
                 <artifactId>HikariCP</artifactId>
                 <version>${HikariCP.version}</version>
+            </dependency>
+            <!--            Web-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
             </dependency>
             <!--        Testing-->
             <dependency>
@@ -119,19 +168,6 @@
         <finalName>scheduler</finalName>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                        <encoding>${file.encoding}</encoding>
-                        <compilerArgument>-Xlint:all</compilerArgument>
-                        <showWarnings>true</showWarnings>
-                        <showDeprecation>true</showDeprecation>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>

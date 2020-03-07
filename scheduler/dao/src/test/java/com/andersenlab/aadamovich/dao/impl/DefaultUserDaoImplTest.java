@@ -9,11 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DaoConfig.class)
+@Transactional
 public class DefaultUserDaoImplTest {
 
     @Autowired
@@ -21,16 +23,14 @@ public class DefaultUserDaoImplTest {
 
     @Test
     void saveUser() {
-        final UserDto userDto = createUserDto("CreateUserTest");
+        final UserDto expectedUser = createUserDto("CreateUserTest");
 
-        final UserDto userSavedInDB = userDao.save(userDto);
-        assertNotNull(userSavedInDB);
-        assertNotNull(userSavedInDB.getId());
-        assertEquals(userDto.getLogin(), userSavedInDB.getLogin());
-        assertEquals(userDto.getPassword(), userSavedInDB.getPassword());
-        assertEquals(userDto.getRole(), userSavedInDB.getRole());
-
-        userDao.delete(userSavedInDB.getId());
+        final UserDto actualUser = userDao.save(expectedUser);
+        assertNotNull(actualUser);
+        assertNotNull(actualUser.getId());
+        assertEquals(expectedUser.getLogin(), actualUser.getLogin());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getRole(), actualUser.getRole());
     }
 
     @Test
@@ -41,17 +41,34 @@ public class DefaultUserDaoImplTest {
 
     @Test
     void findByIdExists() {
-        final UserDto userDto = createUserDto("ReadByIdTestUser");
-        final UserDto savedUser = userDao.save(userDto);
+        final UserDto userDto = createUserDto("FindByIdTestUser");
+        final UserDto expectedUser = userDao.save(userDto);
 
-        final UserDto userFoundInDB = userDao.findById(savedUser.getId());
-        assertNotNull(userFoundInDB);
-        assertEquals(savedUser.getId(), userFoundInDB.getId());
-        assertEquals(savedUser.getLogin(), userFoundInDB.getLogin());
-        assertEquals(savedUser.getPassword(), userFoundInDB.getPassword());
-        assertEquals(savedUser.getRole(), userFoundInDB.getRole());
+        final UserDto actualUser = userDao.findById(expectedUser.getId());
+        assertNotNull(actualUser);
+        assertEquals(expectedUser.getId(), actualUser.getId());
+        assertEquals(expectedUser.getLogin(), actualUser.getLogin());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getRole(), actualUser.getRole());
+    }
 
-        deleteTestUserFromDB(userFoundInDB.getId());
+    @Test
+    void findByLoginNotExists() {
+        final UserDto userFromDB = userDao.findByLogin("This user not exists");
+        assertNull(userFromDB);
+    }
+
+    @Test
+    void findByLoginExists() {
+        final UserDto userDto = createUserDto("FindByLoginTestUser");
+        final UserDto expectedUser = userDao.save(userDto);
+
+        final UserDto actualUser = userDao.findByLogin(expectedUser.getLogin());
+        assertNotNull(actualUser);
+        assertEquals(expectedUser.getId(), actualUser.getId());
+        assertEquals(expectedUser.getLogin(), actualUser.getLogin());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getRole(), actualUser.getRole());
     }
 
     @Test
@@ -68,20 +85,18 @@ public class DefaultUserDaoImplTest {
         final UserDto savedUser = userDao.save(userDto);
         final Integer userId = savedUser.getId();
 
-        final UserDto userToUpdate = createUserDto("UPDATED");
-        userToUpdate.setId(userId);
-        userToUpdate.setPassword("UpdatedPassword");
-        userToUpdate.setRole(Role.ADMIN);
+        final UserDto expectedUser = createUserDto("UPDATED");
+        expectedUser.setId(userId);
+        expectedUser.setPassword("UpdatedPassword");
+        expectedUser.setRole(Role.ADMIN);
 
-        final boolean isUpdated = userDao.update(userToUpdate);
+        final boolean isUpdated = userDao.update(expectedUser);
         assertTrue(isUpdated);
-        final UserDto userAfterUpdate = userDao.findById(userId);
-        assertNotNull(userAfterUpdate);
-        assertEquals(userToUpdate.getLogin(), userAfterUpdate.getLogin());
-        assertEquals(userToUpdate.getPassword(), userAfterUpdate.getPassword());
-        assertEquals(userToUpdate.getRole(), userAfterUpdate.getRole());
-
-        deleteTestUserFromDB(userId);
+        final UserDto actualUser = userDao.findById(userId);
+        assertNotNull(actualUser);
+        assertEquals(expectedUser.getLogin(), actualUser.getLogin());
+        assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        assertEquals(expectedUser.getRole(), actualUser.getRole());
     }
 
     @Test
@@ -112,9 +127,5 @@ public class DefaultUserDaoImplTest {
         userDto.setPassword("Test Password");
         userDto.setRole(Role.USER);
         return userDto;
-    }
-
-    private void deleteTestUserFromDB(Integer id) {
-        userDao.delete(id);
     }
 }

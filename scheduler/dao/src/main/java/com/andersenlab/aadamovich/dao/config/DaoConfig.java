@@ -1,40 +1,34 @@
 package com.andersenlab.aadamovich.dao.config;
 
-import com.andersenlab.aadamovich.dao.aspect.aspectj.LoggingConfigAspectJ;
-import com.andersenlab.aadamovich.dao.aspect.spring_aop.LoggingClassMethodsBeanPostProcessor;
 import com.andersenlab.aadamovich.dao.event.DefaultEventDaoImpl;
 import com.andersenlab.aadamovich.dao.event.EventBaseDao;
+import com.andersenlab.aadamovich.dao.repository.EventRepository;
+import com.andersenlab.aadamovich.dao.repository.UserRepository;
 import com.andersenlab.aadamovich.dao.user.DefaultUserDaoImpl;
 import com.andersenlab.aadamovich.dao.user.UserBaseDao;
 import org.hibernate.SessionFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
 
 @Configuration
+@ComponentScan (basePackages = "com.andersenlab.aadamovich.dao.aspect")
 @Import(HibernateConfig.class)
 @EnableAspectJAutoProxy
 public class DaoConfig {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+
     @Bean
-    public UserBaseDao userBaseDao(SessionFactory factory) {
-        return new DefaultUserDaoImpl(factory);
+    public UserBaseDao userBaseDao() {
+        return new DefaultUserDaoImpl(userRepository);
     }
 
     @Bean
-    public EventBaseDao eventBaseDao(SessionFactory factory) {
-        return new DefaultEventDaoImpl(factory);
-    }
-
-    //    AOP Beans
-    @Bean
-    public LoggingConfigAspectJ loggingConfigAspectJ() {
-        return new LoggingConfigAspectJ();
-    }
-
-    @Bean
-    public LoggingClassMethodsBeanPostProcessor loggingClassMethodsBeanPostProcessor() {
-        return new LoggingClassMethodsBeanPostProcessor();
+    public EventBaseDao eventBaseDao() {
+        return new DefaultEventDaoImpl(eventRepository);
     }
 }
