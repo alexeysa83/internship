@@ -22,16 +22,15 @@
     </div>
     <div class="form-group">
         <label for="confirmPasswordForm">Confirm password</label>
-        <input type="text" class="form-control" id="confirmPasswordForm" placeholder="Confirm password" name="password"
+        <input type="text" class="form-control" id="confirmPasswordForm" placeholder="Confirm password" name="confirmPassword"
                required>
     </div>
     <div class="form-group">
         <label for="roleForm">Role select</label>
-        <select class="form-control" id="roleForm" name="role" required>
-            <option>USER</option>
-            <option>ADMIN</option>
+        <select datatype="text" class="form-control" id="roleForm" name="role" required>
+            <option value="CUSTOMER">CUSTOMER</option>
+            <option value="ADMIN">ADMIN</option>
         </select>
     </div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

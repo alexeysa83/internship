@@ -25,7 +25,7 @@
                 You have been logged out.</h2>
         </div>
     </c:if>
-    <button type="button" class="btn btn-success" form="${pageContext.request.contextPath}/registration">Registration</button>
+
     <div class="form-group">
         <label for="inputUsername">Username</label>
         <input type="text" class="form-control" id="inputUsername" aria-describedby="usernameHelp" name="username"
@@ -40,11 +40,8 @@
         <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me">
         <label class="form-check-label" for="rememberMe">Remember me</label>
     </div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
-
 <hr/>
 </body>
 </html>
