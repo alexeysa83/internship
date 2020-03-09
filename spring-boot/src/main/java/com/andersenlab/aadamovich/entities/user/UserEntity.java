@@ -1,4 +1,4 @@
-package com.andersenlab.aadamovich.entities;
+package com.andersenlab.aadamovich.entities.user;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,7 +1,7 @@
 package com.andersenlab.aadamovich.services;
 
-import com.andersenlab.aadamovich.entities.Role;
-import com.andersenlab.aadamovich.entities.UserEntity;
+import com.andersenlab.aadamovich.entities.user.Role;
+import com.andersenlab.aadamovich.entities.user.UserEntity;
 import com.andersenlab.aadamovich.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -40,13 +40,14 @@ public class AuthenticationService implements UserDetailsService {
 
     private List<GrantedAuthority> getAuthorities(Set<Role> userRoles) {
         if (userRoles != null && !userRoles.isEmpty()) {
-            List<GrantedAuthority> listOfRoles = new ArrayList();
-            userRoles.stream().forEach(role -> listOfRoles.add((GrantedAuthority) role::toString));
-            return listOfRoles;
+            List<GrantedAuthority> grantedAuthorities = new ArrayList();
+           userRoles.stream()
+                   .map(role -> "ROLE_" + role.toString())
+                   .forEach(s -> grantedAuthorities.add((GrantedAuthority) () -> s));
+            return grantedAuthorities;
         } else {
             throw new RuntimeException("Wrong role");
         }
     }
-
 }
 

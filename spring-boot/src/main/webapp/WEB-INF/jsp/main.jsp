@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
@@ -24,9 +23,9 @@
             Choose category
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="${pageContext.request.contextPath}/trucks">
-                Motor cars</a>
             <a class="dropdown-item" href="${pageContext.request.contextPath}/motor_cars">
+                Motor cars</a>
+            <a class="dropdown-item" href="${pageContext.request.contextPath}/trucks">
                 Trucks</a>
         </div>
     </div>

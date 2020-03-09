@@ -1,6 +1,6 @@
 package com.andersenlab.aadamovich.repositories;
 
-import com.andersenlab.aadamovich.entities.UserEntity;
+import com.andersenlab.aadamovich.entities.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {

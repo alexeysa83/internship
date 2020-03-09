@@ -1,6 +1,6 @@
 package com.andersenlab.aadamovich.services;
 
-import com.andersenlab.aadamovich.entities.UserEntity;
+import com.andersenlab.aadamovich.entities.user.UserEntity;
 import com.andersenlab.aadamovich.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

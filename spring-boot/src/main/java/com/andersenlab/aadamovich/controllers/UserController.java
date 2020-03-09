@@ -1,7 +1,7 @@
 package com.andersenlab.aadamovich.controllers;
 
-import com.andersenlab.aadamovich.entities.Role;
-import com.andersenlab.aadamovich.entities.UserEntity;
+import com.andersenlab.aadamovich.entities.user.Role;
+import com.andersenlab.aadamovich.entities.user.UserEntity;
 import com.andersenlab.aadamovich.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +43,8 @@ public class UserController {
         return model;
     }
 
-    @PostMapping("/{username}")
-    public ModelAndView deleteUser(@PathVariable String username, ModelAndView model) {
+    @PostMapping("/delete/{username}")
+    public ModelAndView deleteUserNyUsername(@PathVariable String username, ModelAndView model) {
         String message;
         final boolean wasDeleted = userService.deleteUser(username);
         if(wasDeleted) {
