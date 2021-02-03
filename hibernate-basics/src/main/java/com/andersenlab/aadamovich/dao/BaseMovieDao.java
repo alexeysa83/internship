@@ -1,7 +1,5 @@
 package com.andersenlab.aadamovich.dao;
 
-import com.andersenlab.aadamovich.model.Movie;
-
 public interface BaseMovieDao <T>{
 
     // Returns primary key for newly generated instance

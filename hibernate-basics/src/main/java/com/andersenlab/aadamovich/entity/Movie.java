@@ -1,7 +1,15 @@
-package com.andersenlab.aadamovich.model;
+package com.andersenlab.aadamovich.entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Columns;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table (name = "movie")
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, include = "non-lazy")
 public class Movie {
     private Integer id;
     private String name;
@@ -17,7 +25,9 @@ public class Movie {
         this.isCool = isCool;
     }
 
-    public Integer getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        public Integer getId() {
         return id;
     }
 
@@ -25,6 +35,7 @@ public class Movie {
         this.id = id;
     }
 
+    @Column
     public String getName() {
         return name;
     }
@@ -33,6 +44,7 @@ public class Movie {
         this.name = name;
     }
 
+    @Column
     public String getGenre() {
         return genre;
     }
@@ -41,6 +53,7 @@ public class Movie {
         this.genre = genre;
     }
 
+    @Column(name = "is_cool")
     public boolean isCool() {
         return isCool;
     }
